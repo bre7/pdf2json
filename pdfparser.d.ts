@@ -1,11 +1,14 @@
-import {EventEmitter} from "events";
+import { EventEmitter } from "events";
 
 declare class Pdfparser extends EventEmitter{
     constructor();
+    constructor(string, shouldReadText: number);
+    
     parseBuffer(buffer: Buffer): void;
-    loadPDF(pdfFilePath: string, verbosity?: number):Promise<void>
-    createParserStream():ParserStream
-    on<K extends keyof EventMap>(eventName: K, listener: EventMap[K]): this
+    loadPDF(pdfFilePath: string, verbosity?: number): Promise<void>;
+    createParserStream(): ParserStream;
+    on<K extends keyof EventMap>(eventName: K, listener: EventMap[K]): this;
+    getRawTextContent(): string;
 }
 
 type EventMap = {
@@ -15,18 +18,18 @@ type EventMap = {
     "data": (data: Output["Pages"][number]|null) => void;
 }
 
-declare class ParserStream{
+declare class ParserStream {
     //TODO
 }
 
 
-export interface Output{
+export interface Output {
     Transcoder: string,
     Meta: Record<string, any>
     Pages: Page[]
 }
 
-declare interface Page{
+declare interface Page {
     Width: number,
     Height: number,
     HLines: Line[],
